@@ -290,3 +290,30 @@ https://www.howtoforge.com/how-to-install-elastic-stack-on-centos-8/
 https://www.scioshield.uk/how-to-install-elasticsearch-and-kibana-8-0-on-centos-7/
 
 # monitor https://www.tecmint.com/monitor-centos-server-performance/
+
+#start kong when reboot
+
+vi /usr/lib/systemd/system/kong.service
+
+[Unit]
+Description= kong service
+After=syslog.target network.target
+
+[Service]
+User=root
+Group=root
+Type=forking
+ExecStart=/usr/local/bin/kong start
+ExecReload=/usr/local/bin/kong reload
+ExecStop=/usr/local/bin/kong stop
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+ systemctl start kong
+systemctl stop kong
+ systemctl enable kong
+
+
