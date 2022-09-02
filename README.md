@@ -291,7 +291,7 @@ https://www.scioshield.uk/how-to-install-elasticsearch-and-kibana-8-0-on-centos-
 
 # monitor https://www.tecmint.com/monitor-centos-server-performance/
 
-#start kong when reboot
+# start kong when reboot
 
 vi /usr/lib/systemd/system/kong.service
 
