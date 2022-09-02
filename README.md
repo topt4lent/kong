@@ -86,8 +86,11 @@ pg_database = kongdb
 
 
 kong check /etc/kong/kong.conf
+
 kong migrations bootstrap
+
 sudo kong migrations up -c /etc/kong/kong.conf
+
 sudo kong start -c /etc/kong/kong.conf
 
 # Konga
@@ -97,37 +100,53 @@ sudo kong start -c /etc/kong/kong.conf
  # https://medium.com/w8t-developer/%E0%B8%A1%E0%B8%B2%E0%B8%A5%E0%B8%AD%E0%B8%87%E0%B9%83%E0%B8%8A%E0%B9%89%E0%B8%87%E0%B8%B2%E0%B8%99-kong-%E0%B8%81%E0%B8%B1%E0%B8%99-part-1-a5a4557d281b
 
 install git hub on root
+
 sudo dnf update -y
+
 sudo dnf install git -y
+
 git --version
 
 useradd -m konga
 
 
 
---install node js on konga 
+# install node js on konga 
 install nvm
+
 curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+
 source ~/.bashrc
+
 nvm install 12.16
+
 npm install npm@latest -g
+
 npm install -g gulp bower sails
 
 
 
 git clone https://github.com/pantsel/konga.git
+
 cd konga
+
 npm i
 
 
 # Add database for konga
 
-$ su postgres
+su postgres
+
 psql
+
 CREATE USER konga WITH PASSWORD'your_password';
+
 CREATE DATABASE konga OWNER konga;
+
 grant all privileges on database konga to konga;
+
 \q
+
 exit;
 
 
@@ -140,8 +159,9 @@ node ./bin/konga.js prepare --adapter postgres --uri postgresql://kongauser:1a2b
 
 Copy the configuration file template as .env
 
-$ cp -r .env_example .env
-$ vim .env
+cp -r .env_example .env
+
+vi .env
 
 ####
 HOST=your_ip
@@ -165,7 +185,9 @@ npm run production &
 # stop konga
 
 ps aux | grep -i konga
+
 kill -9 process_id
+
 # SSL cert in konga
  su konga
  cd kong
@@ -174,30 +196,44 @@ kill -9 process_id
 เพิ่ม 
 
 SSL_KEY_PATH=/home/konga/konga/cert/konga.rtarf.mi.th.key
+
 SSL_CRT_PATH=/home/konga/konga/cert/konga.rtarf.mi.th.crt
 
 restart konga
 
 # firewall 
 systemctl restart firewalld
+
  firewall-cmd --list-all
+ 
  grep ssh /etc/services
+ 
  firewall-cmd --reload
+ 
 firewall-cmd --get-default-zone
+
 firewall-cmd --get-active-zones
+
 firewall-cmd --zone=public --permanent --add-port=1337/tcp
+
  ip -a
 
 # rsyslog tcp
+
 vi /etc/rsyslog.conf
+
 firewall-cmd  --add-port=514/tcp  --zone=public  --permanent
 systemctl restart rsyslog
+
 service rsyslog reload
+
 sudo netstat -pnltu
+
 tail -f /var/log/messages
 
 # copy rsyslog from 
 cd /usr/share/doc/rsyslog/
+
 psql -U postgres Syslog -f pgsql-createDB.sql
 
 
@@ -252,7 +288,9 @@ CREATE TABLE SystemEventsProperties
 
 
 #$IncludeConfig /etc/rsyslog.d/*.conf
+
 #$ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+
 #$ModLoad imklog   # provides kernel logging support (previously done by rklogd)
 
 
